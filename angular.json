@@ -22,7 +22,6 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -45,6 +44,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -95,6 +95,13 @@
               "src/styles.scss"
             ],
             "scripts": []
+          },
+          "configurations": {
+            "ci": {
+              "watch": false,
+              "progress": false,
+              "browsers": "ChromeHeadlessCI"
+            }
           }
         },
         "lint": {
@@ -114,15 +121,21 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "rs21-test:serve"
+            "devServerTarget": "rs21-test:serve",
+            "webdriverUpdate": false
           },
           "configurations": {
             "production": {
               "devServerTarget": "rs21-test:serve:production"
+            },
+            "ci": {
+              "devServerTarget": "rs21-test:serve:production",
+              "protractorConfig": "e2e/protractor-ci.conf.js"
             }
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "rs21-test"
 }

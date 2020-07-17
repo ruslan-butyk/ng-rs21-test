@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display a map', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('rs21-test app is running!');
+    expect(page.getMapElement().isDisplayed()).toEqual(true);
   });
 
   afterEach(async () => {
