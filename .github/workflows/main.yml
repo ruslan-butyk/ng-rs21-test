@@ -21,10 +21,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run build
-        run: |
-          npm i
-          npm run build:prod
+      - name: Install node modules
+        run: npm i
+      - name: Lint
+        run: npm run lint
+      - name: Build project
+        run: npm run build:prod
+      - name: Unit tests
+        run: npm run test -- --configuration=ci
+      - name: E2E tests
+        run: npm run e2e -- --configuration=ci
 #      - name: Push Build to Releases
 #        uses: ncipollo/release-action@v1
 #        with:
