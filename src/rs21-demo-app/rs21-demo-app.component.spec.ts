@@ -1,19 +1,19 @@
 import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import { Rs21DemoAppComponent } from './rs21-demo-app.component';
 
-describe('AppComponent', () => {
-  let fixture: ComponentFixture<AppComponent>;
+describe('Rs21DemoAppComponent', () => {
+  let fixture: ComponentFixture<Rs21DemoAppComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
       declarations: [
-        AppComponent
+        Rs21DemoAppComponent
       ],
     }).compileComponents();
-    fixture = TestBed.createComponent(AppComponent);
+    fixture = TestBed.createComponent(Rs21DemoAppComponent);
   }));
 
   it('should create the app', () => {
@@ -21,9 +21,4 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should have a map block', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('#map')).toBeTruthy();
-  });
 });
