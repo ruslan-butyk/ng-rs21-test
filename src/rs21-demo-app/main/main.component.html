@@ -1,4 +1,34 @@
-<rs21-control-panel></rs21-control-panel>
-<rs21-map></rs21-map>
-<rs21-dashboard></rs21-dashboard>
+<mat-toolbar>
+  <button mat-icon-button
+          color="primary"
+          aria-label="Open left side control panel"
+          (click)="controlPanelSide.toggle()" >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Map</span>
+</mat-toolbar>
 
+<mat-drawer-container class="main-content">
+  <mat-drawer #controlPanelSide
+              mode="side"
+              opened>
+    <rs21-control-panel></rs21-control-panel>
+  </mat-drawer>
+
+  <mat-drawer-content >
+    <rs21-map></rs21-map>
+    <button class="toggle-charts"
+            mat-fab
+            color="primary"
+            aria-label="Open right side chart panel"
+            (click)="dashbordSide.toggle()" >
+      <mat-icon>addchart</mat-icon>
+    </button>
+  </mat-drawer-content>
+
+  <mat-drawer #dashbordSide
+              mode="over"
+              position="end">
+    <rs21-dashboard></rs21-dashboard>
+  </mat-drawer>
+</mat-drawer-container>
