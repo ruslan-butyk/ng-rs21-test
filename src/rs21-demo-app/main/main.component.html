@@ -15,20 +15,21 @@
     <rs21-control-panel></rs21-control-panel>
   </mat-drawer>
 
-  <mat-drawer-content >
+  <mat-drawer-content>
     <rs21-map></rs21-map>
     <button class="toggle-charts"
-            mat-fab
-            color="primary"
-            aria-label="Open right side chart panel"
-            (click)="dashbordSide.toggle()" >
-      <mat-icon>addchart</mat-icon>
+            mat-raised-button
+            aria-label="Show/hide right side chart panel"
+            (click)="dashboardSide.toggle()" >
+      <mat-icon>swap_horiz</mat-icon>
     </button>
   </mat-drawer-content>
 
-  <mat-drawer #dashbordSide
-              mode="over"
-              position="end">
+  <mat-drawer #dashboardSide
+              class="dashboard"
+              mode="side"
+              position="end"
+              opened>
     <rs21-dashboard></rs21-dashboard>
   </mat-drawer>
 </mat-drawer-container>
