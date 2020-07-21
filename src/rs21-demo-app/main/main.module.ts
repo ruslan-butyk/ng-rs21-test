@@ -5,19 +5,31 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MainComponent } from './main.component';
 import { MapComponent } from './map/map.component';
 import { ControlPanelComponent } from './control-panel/control-panel.component';
-
+import { FacebookFiltersComponent } from './control-panel/facebook-filters/facebook-filters.component';
+import { TwitterFiltersComponent } from './control-panel/twitter-filters/twitter-filters.component';
+import { CensusFiltersComponent } from './control-panel/census-filters/census-filters.component';
 
 @NgModule({
   declarations: [
     MainComponent,
     MapComponent,
-    ControlPanelComponent
+    ControlPanelComponent,
+    FacebookFiltersComponent,
+    TwitterFiltersComponent,
+    CensusFiltersComponent
   ],
   exports: [
     MainComponent
@@ -29,7 +41,13 @@ import { ControlPanelComponent } from './control-panel/control-panel.component';
     MatButtonModule,
     MatButtonToggleModule,
     MatSidenavModule,
-    DashboardModule
+    DashboardModule,
+    MatExpansionModule,
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule
   ]
 })
 export class MainModule {}
