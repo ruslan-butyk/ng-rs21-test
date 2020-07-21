@@ -1,0 +1,24 @@
+<mat-form-field class="place-type-chips">
+  <mat-chip-list #chipList aria-label="Place type selection">
+    <mat-chip
+      *ngFor="let place of selectedPlaces$ | async"
+      [selectable]="true"
+      [removable]="isChipRemovable"
+      (removed)="removeChip(place)">
+      {{place.name}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="New place type..."
+      #placeInput
+      [formControl]="placesCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+    <mat-option *ngFor="let place of filteredPlaces$ | async" [value]="place">
+      {{place.name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

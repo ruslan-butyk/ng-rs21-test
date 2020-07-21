@@ -1,6 +1,6 @@
 {
   "name": "rs21-test",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "~10.0.4",
     "@angular/router": "~10.0.4",
     "chart.js": "^2.9.3",
+    "lodash": "^4.17.19",
     "mapbox-gl": "^1.11.1",
     "ng2-charts": "^2.3.2",
     "rxjs": "~6.5.5",
