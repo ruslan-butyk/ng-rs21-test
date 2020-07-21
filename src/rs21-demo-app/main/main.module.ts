@@ -6,16 +6,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+
+import { DashboardModule } from './dashboard/dashboard.module';
 import { MainComponent } from './main.component';
 import { MapComponent } from './map/map.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ControlPanelComponent } from './control-panel/control-panel.component';
+
 
 @NgModule({
   declarations: [
     MainComponent,
     MapComponent,
-    DashboardComponent,
     ControlPanelComponent
   ],
   exports: [
@@ -28,8 +29,7 @@ import { ControlPanelComponent } from './control-panel/control-panel.component';
     MatButtonModule,
     MatButtonToggleModule,
     MatSidenavModule,
+    DashboardModule
   ]
 })
-export class MainModule {
-
-}
+export class MainModule {}
