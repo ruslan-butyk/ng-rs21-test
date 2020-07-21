@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Rs21DemoAppRoutingModule } from './rs21-demo-app-routing.module';
 import { Rs21DemoAppComponent } from './rs21-demo-app.component';
 import { MainModule } from './main/main.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     Rs21DemoAppRoutingModule,
     MainModule,
     BrowserAnimationsModule

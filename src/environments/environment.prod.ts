@@ -1,6 +1,8 @@
+import { MAPBOX_CONFIG } from './mapbox.config';
+import { HTTP_CONFIG } from './http.config.';
+
 export const environment = {
   production: true,
-  mapbox: {
-    accessToken: 'pk.eyJ1IjoicmJ1dHlrIiwiYSI6ImNrY3E4dW91NTA3dDcycnA3bWpuZjNsdDAifQ.jS9WqPDp6WrKsVhfjjDYbA'
-  }
+  mapbox: MAPBOX_CONFIG,
+  http: HTTP_CONFIG
 };
