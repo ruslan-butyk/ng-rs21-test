@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,8 +11,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MainComponent } from './main.component';
@@ -21,6 +21,7 @@ import { TwitterRestService } from './service/twitter-rest.service';
 import { FacebookFiltersComponent } from './control-panel/facebook-filters/facebook-filters.component';
 import { TwitterFiltersComponent } from './control-panel/twitter-filters/twitter-filters.component';
 import { CensusFiltersComponent } from './control-panel/census-filters/census-filters.component';
+import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CensusFiltersComponent } from './control-panel/census-filters/census-fi
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -48,7 +50,10 @@ import { CensusFiltersComponent } from './control-panel/census-filters/census-fi
     MatChipsModule,
     MatAutocompleteModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken
+    })
   ]
 })
 export class MainModule {}
