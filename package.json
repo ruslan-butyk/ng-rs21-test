@@ -1,6 +1,6 @@
 {
   "name": "rs21-test",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,6 +27,7 @@
     "lodash": "^4.17.19",
     "mapbox-gl": "^1.11.1",
     "ng2-charts": "^2.3.2",
+    "ngx-mapbox-gl": "^4.8.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
@@ -38,7 +39,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/mapbox-gl": "^1.11.1",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.12.51",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",

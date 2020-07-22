@@ -1,40 +1,59 @@
+<!-- TODO: *ngFor mat-expansion-panel, *ngSwitchCase mat-slide-toggle and filter components -->
 <mat-accordion class="control-panel" multi>
-  <mat-expansion-panel class="facebook-controls">
+  <mat-expansion-panel class="facebook-controls"
+                       #facebookPanel
+                       [disabled]="!isFbLayerEnabled">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Facebook data
       </mat-panel-title>
       <mat-panel-description>
         <div class="spacer"></div>
-        <mat-slide-toggle (click)="$event.stopPropagation()" color="primary">
+        <mat-slide-toggle color="primary"
+                          (click)="$event.stopPropagation()"
+                          [(ngModel)]="isFbLayerEnabled"
+                          (ngModelChange)="onFbLayerDisableChange($event, facebookPanel)">
         </mat-slide-toggle>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <rs21-facebook-filters></rs21-facebook-filters>
+    <rs21-facebook-filters [placeTypes]="placeTypes"
+                           (filterChanges)="fbFilterChange.emit($event)">
+    </rs21-facebook-filters>
   </mat-expansion-panel>
 
-  <mat-expansion-panel class="twitter-controls">
+  <mat-expansion-panel class="twitter-controls"
+                       #twitterPanel
+                       [disabled]="!isTwitterLayerEnabled">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Twitter data
       </mat-panel-title>
       <mat-panel-description>
         <div class="spacer"></div>
-        <mat-slide-toggle (click)="$event.stopPropagation()" color="primary">
+        <mat-slide-toggle color="primary"
+                          (click)="$event.stopPropagation()"
+                          [(ngModel)]="isTwitterLayerEnabled"
+                          (ngModelChange)="onTwitterLayerDisableChange($event, twitterPanel)"
+        >
         </mat-slide-toggle>
       </mat-panel-description>
     </mat-expansion-panel-header>
     <rs21-twitter-filters></rs21-twitter-filters>
   </mat-expansion-panel>
 
-  <mat-expansion-panel class="census-controls">
+  <mat-expansion-panel class="census-controls"
+                       #censusPanel
+                       [disabled]="!isCensusLayerEnabled">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Census data
       </mat-panel-title>
       <mat-panel-description>
         <div class="spacer"></div>
-        <mat-slide-toggle (click)="$event.stopPropagation()" color="primary">
+        <mat-slide-toggle color="primary"
+                          (click)="$event.stopPropagation()"
+                          [(ngModel)]="isCensusLayerEnabled"
+                          (ngModelChange)="onCensusPanelLayerDisableChange($event, censusPanel)">
         </mat-slide-toggle>
       </mat-panel-description>
     </mat-expansion-panel-header>

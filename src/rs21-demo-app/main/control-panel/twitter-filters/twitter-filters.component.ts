@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './twitter-filters.component.html',
   styleUrls: ['./twitter-filters.component.scss']
 })
+/* TODO: rename TwitterFiltersComponent to TwitterFilterComponent and all related things (file names, etc)*/
 export class TwitterFiltersComponent implements OnInit {
 
   constructor() { }
