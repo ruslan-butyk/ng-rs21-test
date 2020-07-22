@@ -12,11 +12,19 @@
   <mat-drawer #controlPanelSide
               mode="side"
               opened>
-    <rs21-control-panel></rs21-control-panel>
+    <rs21-control-panel [placeTypes]="placeTypesData"
+                        (fbLayerDisableChange)="onFbLayerDisableChange($event)"
+                        (fbFilterChange)="onFbFilterChange($event)"
+                        (twitterLayerDisableChange)="onTwitterLayerDisableChange($event)"
+                        (censusLayerDisableChange)="onCensusLayerDisableChange($event)"
+                        (censusFilterChange)="onCensusFilterChange($event)"
+    ></rs21-control-panel>
   </mat-drawer>
 
   <mat-drawer-content>
-    <rs21-map></rs21-map>
+    <rs21-map [fbData]="fbData"
+              [twitterData]="twitterData"
+    ></rs21-map>
     <button class="toggle-charts"
             mat-raised-button
             aria-label="Show/hide right side chart panel"

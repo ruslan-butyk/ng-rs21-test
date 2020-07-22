@@ -1,0 +1,17 @@
+.gender-select {
+  width: 100%;
+}
+
+.slider-holder {
+  display: flex;
+  align-items: center;
+
+  mat-slider {
+    flex: 1;
+  }
+
+  output {
+    width: 2rem;
+    text-align: right;
+  }
+}

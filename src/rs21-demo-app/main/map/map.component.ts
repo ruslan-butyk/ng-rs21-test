@@ -1,31 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
-import {environment} from '../../../environments/environment';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { GeoJSONSourceRaw, MapboxGeoJSONFeature, MapLayerMouseEvent } from 'mapbox-gl';
+import { FacebookMetaData } from '../model/facebook-meta-data.interface';
+import { FacebookGeoJson } from '../model/facebook-geo-json.type';
+import { TwitterMetaData } from '../model/twitter-meta-data.interface';
+import { get } from 'lodash';
 
 @Component({
   selector: 'rs21-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
-  // default settings
-  public containerId = 'map';
-  public map: mapboxgl.Map;
-  public style = 'mapbox://styles/mapbox/outdoors-v9';
-  public lat = 35.10; // Albuquerque coords
-  public lng = -106.62;
+export class MapComponent implements OnInit, OnChanges{
+  public isFbPlacesImageLoaded = false;
+  public isTwitterImageLoaded = false;
+  public cursorStyle = '';
+  public selectedPoint: MapboxGeoJSONFeature | null;
 
-  constructor() {
-  }
+  @Input() public fbData: FacebookGeoJson | null;
+  @Input() public twitterData: TwitterMetaData | null;
+
+  public defaultConfig = {
+    style: 'mapbox://styles/mapbox/streets-v9',
+    lat: 37.0, // Albuquerque coords
+    lng: -98.0,
+    zoom: [4]
+  };
 
   public ngOnInit(): void {
-    this.map = new mapboxgl.Map({
-      container: this.containerId,
-      style: this.style,
-      zoom: 12,
-      center: [this.lng, this.lat],
-      accessToken: environment.mapbox.accessToken
-    });
   }
 
+  public ngOnChanges(): void {
+  }
+
+  public onFbPlaceImageLoad(): void {
+    this.isFbPlacesImageLoaded = true;
+  }
+
+  public onTwitterImageLoad(): void {
+    this.isTwitterImageLoaded = true;
+  }
+
+  public onLayerClick(event: MapLayerMouseEvent): void {
+    this.selectedPoint = get(event, 'features[0]');
+  }
+
+  public onPointEnter(): void {
+    this.cursorStyle = 'pointer';
+  }
+
+  public onPointLeave(): void {
+    this.cursorStyle = '';
+  }
+
+  public getLayerVisibility(data: FacebookGeoJson ): string {
+    return data ? 'visible' : 'none';
+  }
+
+  public isPopupOpen(pointType: string): boolean {
+    return get(this.selectedPoint, 'layer.id') === pointType;
+  }
 }

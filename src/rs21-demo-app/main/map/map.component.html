@@ -1,1 +1,68 @@
-<div class="map" id="map"></div>
+<mgl-map class="map"
+         [style]="defaultConfig.style"
+         [zoom]="defaultConfig.zoom"
+         [center]="[defaultConfig.lng, defaultConfig.lat]"
+         [cursorStyle]="cursorStyle">
+  <div class="facebook-layer">
+    <mgl-image
+      id="fbPoint"
+      url="https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png"
+      (loaded)="onFbPlaceImageLoad()"
+    >
+    </mgl-image>
+    <mgl-geojson-source
+      id="facebookDataSet"
+      [data]="fbData"
+    ></mgl-geojson-source>
+    <mgl-layer
+      id="fbPlaces"
+      *ngIf="isFbPlacesImageLoaded"
+      type="symbol"
+      source="facebookDataSet"
+      [layout]="{ 'icon-image': 'fbPoint', visibility: getLayerVisibility(fbData)}"
+      (click)="onLayerClick($event)"
+      (mouseEnter)="onPointEnter()"
+      (mouseLeave)="onPointLeave()"
+    >
+    </mgl-layer>
+    <mgl-popup *ngIf="isPopupOpen('fbPlaces')" [feature]="selectedPoint">
+      <p><strong>{{selectedPoint.properties?.place}}</strong></p>
+      <p><b>Place type: </b>{{selectedPoint.properties?.type}}</p>
+      <p><b>Chekins: </b>{{selectedPoint.properties?.checkins}}</p>
+    </mgl-popup>
+  </div>
+
+
+  <div class="twitter-layer">
+    <mgl-image
+      id="twittPoint"
+      url="https://img.icons8.com/fluent/96/twitter.png"
+      (loaded)="onTwitterImageLoad()"
+    >
+    </mgl-image>
+    <mgl-geojson-source
+      id="twitterDataSet"
+      [data]="twitterData"
+    ></mgl-geojson-source>
+
+    <mgl-layer
+      id="twitter"
+      *ngIf="isTwitterImageLoaded"
+      type="symbol"
+      source="twitterDataSet"
+      [layout]="{ 'icon-image': 'twittPoint', visibility: getLayerVisibility(twitterData), 'icon-size': 0.5}"
+      (click)="onLayerClick($event)"
+      (mouseEnter)="onPointEnter()"
+      (mouseLeave)="onPointLeave()"
+    >
+    </mgl-layer>
+
+    <mgl-popup *ngIf="isPopupOpen('twitter')" [feature]="selectedPoint">
+      <p>@<strong>{{selectedPoint.properties?.username}}</strong></p>
+      <p><b>Tweet: </b>{{selectedPoint.properties?.tweet}}</p>
+      <p><b>Twitted at: </b>{{selectedPoint.properties?.datetime | date:'medium'}}</p>
+    </mgl-popup>
+  </div>
+
+
+</mgl-map>
