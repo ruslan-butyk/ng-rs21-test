@@ -1,10 +1,8 @@
-import { Point } from 'mapbox-gl';
 import { TweetSentiment } from './tweet-sentiment.enum';
 
-export class TweetModel {
+export interface TweetMetaData {
   username: string;
   message: string;
-  datetime: Date;
-  location: Point;
+  datetime: string;
   sentiment: TweetSentiment;
 }

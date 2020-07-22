@@ -19,11 +19,13 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { MainComponent } from './main.component';
 import { MapComponent } from './map/map.component';
 import { ControlPanelComponent } from './control-panel/control-panel.component';
-import { TwitterRestService } from './service/twitter-rest.service';
 import { FacebookFiltersComponent } from './control-panel/facebook-filters/facebook-filters.component';
 import { TwitterFiltersComponent } from './control-panel/twitter-filters/twitter-filters.component';
 import { CensusFiltersComponent } from './control-panel/census-filters/census-filters.component';
 import { environment } from '../../environments/environment';
+import { TwitterRestService } from './service/twitter-rest.service';
+import { FacebookRestService } from './service/facebook-rest.service';
+import { CensusRestService } from './service/census-rest.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { environment } from '../../environments/environment';
     TwitterFiltersComponent,
     CensusFiltersComponent
   ],
-  providers: [TwitterRestService],
+  providers: [TwitterRestService, FacebookRestService, CensusRestService],
   exports: [
     MainComponent
   ],

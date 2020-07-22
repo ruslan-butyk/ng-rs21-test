@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TwitterRestService } from './service/twitter-rest.service';
-import { GeoJSONSourceRaw, Point } from 'mapbox-gl';
+import { FacebookRestService } from './service/facebook-rest.service';
+import { CensusRestService } from './service/census-rest.service';
 import { FacebookFilterOutput } from './model/facebook-filter-output.interface';
-import { ConsoleLogger } from '@angular/compiler-cli/ngcc';
-import { FacebookMetaData } from './model/facebook-meta-data.interface';
-import { FacebookGeoJson } from './model/facebook-geo-json.type';
-import { TwitterGeoJson } from './model/twitter-geo-json.type';
+import { PlaceGeoCollection } from './model/place-geo-collection.type';
+import { TweetGeoCollection } from './model/tweet-geo-collection.type';
 import { CensusFilterOutput } from './model/census-tilter-output.interface';
-import { FB_DATA, PLACE_TYPES_DATA, TWITTER_DATA } from './mock-data';
+import { PLACE_TYPES_DATA } from './mock-data';
 
 @Component({
   selector: 'rs21-main',
@@ -16,22 +15,36 @@ import { FB_DATA, PLACE_TYPES_DATA, TWITTER_DATA } from './mock-data';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  public fbData: FacebookGeoJson | null = null;
+  public fbData: PlaceGeoCollection | null = null;
   public placeTypesData: string[] = PLACE_TYPES_DATA;
 
-  public twitterData: TwitterGeoJson | null = null;
+  public twitterData: TweetGeoCollection | null = null;
 
-  constructor(private twitter: TwitterRestService) { }
+  constructor(
+    private twitter: TwitterRestService,
+    private facebook: FacebookRestService,
+    private census: CensusRestService
+  ) { }
 
   ngOnInit(): void {
   }
 
   public onFbLayerDisableChange(isEnabled: boolean): void {
-    this.fbData = isEnabled ? FB_DATA : null;
+    // todo
+    if (isEnabled) {
+      this.facebook.getGeoCollection().subscribe(data => this.fbData = data);
+    } else {
+      this.fbData = null;
+    }
   }
 
   public onTwitterLayerDisableChange(isEnabled: boolean): void {
-    this.twitterData = isEnabled ? TWITTER_DATA : null;
+    // todo
+    if (isEnabled) {
+      this.twitter.getGeoCollection().subscribe(data => this.twitterData = data);
+    } else {
+      this.twitterData = null;
+    }
   }
 
   public onCensusLayerDisableChange(isEnabled: boolean): void {
@@ -47,5 +60,4 @@ export class MainComponent implements OnInit {
     console.log('MainComponent receives CensusFilterOutput', data);
     // TODO: fetch Census data here
   }
-
 }

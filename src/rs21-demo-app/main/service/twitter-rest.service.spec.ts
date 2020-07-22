@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { TwitterRestService } from './twitter-rest.service';
 
-describe('TwitterService', () => {
+describe('TwitterRestService', () => {
   let service: TwitterRestService;
 
   beforeEach(() => {
