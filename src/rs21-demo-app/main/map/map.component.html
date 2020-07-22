@@ -26,8 +26,8 @@
     >
     </mgl-layer>
     <mgl-popup *ngIf="isPopupOpen('fbPlaces')" [feature]="selectedPoint">
-      <p><strong>{{selectedPoint.properties?.place}}</strong></p>
-      <p><b>Place type: </b>{{selectedPoint.properties?.type}}</p>
+      <p><strong>{{selectedPoint.properties?.name}}</strong></p>
+      <p><b>Type: </b>{{selectedPoint.properties?.type}}</p>
       <p><b>Chekins: </b>{{selectedPoint.properties?.checkins}}</p>
     </mgl-popup>
   </div>
@@ -58,9 +58,8 @@
     </mgl-layer>
 
     <mgl-popup *ngIf="isPopupOpen('twitter')" [feature]="selectedPoint">
-      <p>@<strong>{{selectedPoint.properties?.username}}</strong></p>
-      <p><b>Tweet: </b>{{selectedPoint.properties?.tweet}}</p>
-      <p><b>Twitted at: </b>{{selectedPoint.properties?.datetime | date:'medium'}}</p>
+      <p>@<strong>{{selectedPoint.properties?.username}}</strong> - {{selectedPoint.properties?.datetime | date:'medium'}}</p>
+      <p>{{selectedPoint.properties?.message}}</p>
     </mgl-popup>
   </div>
 
