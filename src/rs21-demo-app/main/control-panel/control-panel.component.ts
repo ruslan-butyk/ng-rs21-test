@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FacebookFilterOutput } from '../model/facebook-filter-output.interface';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { CensusFilterOutput } from '../model/census-tilter-output.interface';
 
 @Component({
   selector: 'rs21-control-panel',
@@ -20,6 +21,7 @@ export class ControlPanelComponent implements OnInit {
   @Output() public twitterLayerDisableChange: EventEmitter<boolean> = new EventEmitter();
 
   @Output() public censusLayerDisableChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() public censusFilterChange: EventEmitter<CensusFilterOutput> = new EventEmitter();
 
 
   constructor() { }

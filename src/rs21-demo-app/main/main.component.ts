@@ -7,51 +7,8 @@ import { ConsoleLogger } from '@angular/compiler-cli/ngcc';
 import { FacebookMetaData } from './model/facebook-meta-data.interface';
 import { FacebookGeoJson } from './model/facebook-geo-json.type';
 import { TwitterGeoJson } from './model/twitter-geo-json.type';
-
-const fbData: FacebookGeoJson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-106.62, 35.10]
-      },
-      properties: {
-        place: 'Planet Fitness - Albuquerque, Gibson, NM',
-        type: 'Sports/recreation/activities',
-        checkins: 2911,
-      }
-    }
-  ]
-};
-
-const twitterData: TwitterGeoJson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [-101.62, 34.10]
-      },
-      properties: {
-        username: 'TrapShawtyyy',
-        tweet: 'Yoooo that stripped shirt makes my boobs look all big ',
-        datetime: '2014-10-30T22:10:36'
-      }
-    }
-  ]
-};
-
-
-const placeTypesData: string[] = [
-  'Local business',
-  'Spas/beauty/personal care',
-  'Restaurant/cafe',
-  'Real estate',
-  'Education'
-];
+import { CensusFilterOutput } from './model/census-tilter-output.interface';
+import { FB_DATA, PLACE_TYPES_DATA, TWITTER_DATA } from './mock-data';
 
 @Component({
   selector: 'rs21-main',
@@ -60,7 +17,7 @@ const placeTypesData: string[] = [
 })
 export class MainComponent implements OnInit {
   public fbData: FacebookGeoJson | null = null;
-  public placeTypesData: string[] = placeTypesData;
+  public placeTypesData: string[] = PLACE_TYPES_DATA;
 
   public twitterData: TwitterGeoJson | null = null;
 
@@ -70,16 +27,25 @@ export class MainComponent implements OnInit {
   }
 
   public onFbLayerDisableChange(isEnabled: boolean): void {
-    this.fbData = isEnabled ? fbData : null;
+    this.fbData = isEnabled ? FB_DATA : null;
   }
 
   public onTwitterLayerDisableChange(isEnabled: boolean): void {
-    this.twitterData = isEnabled ? twitterData : null;
+    this.twitterData = isEnabled ? TWITTER_DATA : null;
+  }
+
+  public onCensusLayerDisableChange(isEnabled: boolean): void {
+    console.log('onCensusLayerDisableChange', isEnabled);
   }
 
   public onFbFilterChange(data: FacebookFilterOutput): void {
     console.log('MainComponent receives FacebookFilterOutput', data);
     // TODO: fetch Facebook data here
+  }
+
+  public onCensusFilterChange(data: CensusFilterOutput): void {
+    console.log('MainComponent receives CensusFilterOutput', data);
+    // TODO: fetch Census data here
   }
 
 }

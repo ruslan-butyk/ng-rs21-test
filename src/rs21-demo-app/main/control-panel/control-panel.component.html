@@ -57,6 +57,6 @@
         </mat-slide-toggle>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <rs21-census-filters></rs21-census-filters>
+    <rs21-census-filters (filterChanges)="censusFilterChange.emit($event)"></rs21-census-filters>
   </mat-expansion-panel>
 </mat-accordion>

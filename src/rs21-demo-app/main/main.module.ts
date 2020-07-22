@@ -11,6 +11,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -50,6 +52,8 @@ import { environment } from '../../environments/environment';
     MatChipsModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatSliderModule,
+    MatSelectModule,
     ReactiveFormsModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken
