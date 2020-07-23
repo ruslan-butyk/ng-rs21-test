@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FacebookFilterOutput } from '../model/facebook-filter-output.interface';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { CensusFilterOutput } from '../model/census-tilter-output.interface';
@@ -6,7 +6,8 @@ import { CensusFilterOutput } from '../model/census-tilter-output.interface';
 @Component({
   selector: 'rs21-control-panel',
   templateUrl: './control-panel.component.html',
-  styleUrls: ['./control-panel.component.scss']
+  styleUrls: ['./control-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ControlPanelComponent implements OnInit {
   public isFbLayerEnabled = false;

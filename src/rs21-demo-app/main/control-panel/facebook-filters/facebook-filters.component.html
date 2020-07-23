@@ -1,5 +1,7 @@
+<p>Select place type to display places</p>
 <mat-form-field class="place-type-chips">
-  <mat-chip-list #chipList aria-label="Place type selection">
+  <mat-chip-list #chipList
+                 aria-label="Place type selection" >
     <mat-chip
       *ngFor="let place of selectedPlaces$ | async"
       [selectable]="true"
@@ -9,7 +11,7 @@
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
     <input
-      placeholder="New place type..."
+      placeholder="Add place type..."
       #placeInput
       [formControl]="placesCtrl"
       [matAutocomplete]="autocomplete"

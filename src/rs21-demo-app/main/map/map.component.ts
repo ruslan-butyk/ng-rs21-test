@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MapboxGeoJSONFeature, MapLayerMouseEvent } from 'mapbox-gl';
+import { MapboxGeoJSONFeature, MapLayerMouseEvent, Visibility } from 'mapbox-gl';
 import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { get } from 'lodash';
 import { FeatureCollection } from 'geojson';
@@ -20,11 +20,14 @@ export class MapComponent implements OnInit, OnChanges{
   @Input() public twitterData: TweetGeoCollection | null;
   @Input() public censusData: FeatureCollection | null;
 
+  @Input() public isFbLayerVisible: Visibility = 'none';
+  @Input() public isTwitterLayerVisible: Visibility = 'none';
+
   public defaultConfig = {
     style: 'mapbox://styles/mapbox/streets-v9',
-    lat: 37.0, // Albuquerque coords
-    lng: -98.0,
-    zoom: [4]
+    lat: 35.10, // Albuquerque coords
+    lng: -106.62,
+    zoom: [11]
   };
 
   public ngOnInit(): void {
@@ -51,10 +54,6 @@ export class MapComponent implements OnInit, OnChanges{
 
   public onPointLeave(): void {
     this.cursorStyle = '';
-  }
-
-  public getLayerVisibility(data: FeatureCollection ): string {
-    return data ? 'visible' : 'none';
   }
 
   public isPopupOpen(pointType: string): boolean {
