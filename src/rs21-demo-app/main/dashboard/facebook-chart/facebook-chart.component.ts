@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Label } from 'ng2-charts';
-import { ChartType } from 'chart.js';
+import { ChartOptions, ChartType } from 'chart.js';
 
 @Component({
   selector: 'rs21-facebook-chart',
@@ -9,13 +9,25 @@ import { ChartType } from 'chart.js';
 })
 export class FacebookChartComponent implements OnInit {
   public readonly chartType: ChartType = 'pie';
-  // Mocked data
-  public data: number[] = [40, 10, 20, 20, 10];
-  public labels: Label[] = ['Hotel', 'Bar', 'Local business', 'Landmark', 'Restaurant/cafe', '...'];
+
+  @Input() public nums: number[];
+  @Input() public places: Label[];
+
+  public chartOptions: ChartOptions = {
+    responsive: true,
+    legend: {
+      display: false
+    },
+    aspectRatio: 1.5,
+    title: {
+      display: true,
+      text: 'Number of public places',
+      position: 'top'
+    }
+  };
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

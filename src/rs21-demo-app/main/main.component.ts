@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Visibility } from 'mapbox-gl';
 
 import { TwitterRestService } from './service/twitter-rest.service';
 import { FacebookRestService } from './service/facebook-rest.service';
@@ -9,7 +10,9 @@ import { TweetGeoCollection } from './model/tweet-geo-collection.type';
 import { CensusFilterOutput } from './model/census-tilter-output.interface';
 import { CensusGeoCollection } from './model/census-geo-collection.type';
 import { CensusGeoObject } from './model/census-geo-object.type';
-import { Visibility } from 'mapbox-gl';
+import { PlaceMetaData } from './model/place-meta-data.interface';
+import { TweetMetaData } from './model/tweet-meta-data.interface';
+import { CensusMetaData } from './model/census-meta-data.interface';
 
 const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
   type: 'FeatureCollection',
@@ -24,13 +27,16 @@ const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
 })
 export class MainComponent implements OnInit {
   public fbData: PlaceGeoCollection | null = null;
+  public fbMetaData: PlaceMetaData[] | null = null;
   public fbFilter: FacebookFilterOutput;
   public isFbLayerVisible: Visibility = 'none';
 
   public placeTypesData: string[] = [];
 
   public twitterData: TweetGeoCollection | null = null;
+  public twitterMetaData: TweetMetaData[] | null = null;
   public censusData: CensusGeoCollection | null = null;
+  public censusMetaData: CensusMetaData[] | null = null;
   public isTwitterLayerVisible: Visibility = 'none';
 
   // GEOID => GeoObject
@@ -60,6 +66,7 @@ export class MainComponent implements OnInit {
     if (!this.twitterData) {
       this.twitter.getGeoCollection().subscribe((data: TweetGeoCollection) => {
         this.twitterData = data;
+        this.twitterMetaData = data.features.map(item => item.properties);
         this.cd.markForCheck();
       });
     }
@@ -75,7 +82,8 @@ export class MainComponent implements OnInit {
       });
     } else {
       this.censusData = null;
-      this.censusMap = undefined;
+      this.censusMap = null;
+      this.censusMetaData = null;
     }
   }
 
@@ -94,6 +102,8 @@ export class MainComponent implements OnInit {
             feature.properties = props;
           }
         });
+        this.censusMetaData = metaData;
+        this.cd.markForCheck();
       });
   }
 
@@ -101,10 +111,12 @@ export class MainComponent implements OnInit {
     if (type.length) {
       this.facebook.getGeoCollection({type}).subscribe((data: PlaceGeoCollection) => {
         this.fbData = data;
+        this.fbMetaData = data.features.map(item => item.properties);
         this.cd.markForCheck();
       });
     } else {
       this.fbData = DUMMY_GEO_JSON;
+      this.fbMetaData = null;
     }
   }
 

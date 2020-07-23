@@ -41,6 +41,9 @@
               mode="side"
               position="end"
               opened>
-    <rs21-dashboard></rs21-dashboard>
+    <rs21-dashboard [fbData]="fbMetaData"
+                    [twitterData]="twitterMetaData"
+                    [censusData]="censusMetaData">
+    </rs21-dashboard>
   </mat-drawer>
 </mat-drawer-container>
