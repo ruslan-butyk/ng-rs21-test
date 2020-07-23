@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { GeoJSONSourceRaw, MapboxGeoJSONFeature, MapLayerMouseEvent } from 'mapbox-gl';
-import { PlaceMetaData } from '../model/place-meta-data.interface';
+import { MapboxGeoJSONFeature, MapLayerMouseEvent } from 'mapbox-gl';
 import { PlaceGeoCollection } from '../model/place-geo-collection.type';
-import { TweetMetaData } from '../model/tweet-meta-data.interface';
 import { get } from 'lodash';
+import { FeatureCollection } from 'geojson';
+import { TweetGeoCollection } from '../model/tweet-geo-collection.type';
 
 @Component({
   selector: 'rs21-map',
@@ -17,7 +17,8 @@ export class MapComponent implements OnInit, OnChanges{
   public selectedPoint: MapboxGeoJSONFeature | null;
 
   @Input() public fbData: PlaceGeoCollection | null;
-  @Input() public twitterData: TweetMetaData | null;
+  @Input() public twitterData: TweetGeoCollection | null;
+  @Input() public censusData: FeatureCollection | null;
 
   public defaultConfig = {
     style: 'mapbox://styles/mapbox/streets-v9',
@@ -52,7 +53,7 @@ export class MapComponent implements OnInit, OnChanges{
     this.cursorStyle = '';
   }
 
-  public getLayerVisibility(data: PlaceGeoCollection ): string {
+  public getLayerVisibility(data: FeatureCollection ): string {
     return data ? 'visible' : 'none';
   }
 

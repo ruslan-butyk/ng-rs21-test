@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FeatureCollection } from 'geojson';
 
 import { TwitterRestService } from './service/twitter-rest.service';
 import { FacebookRestService } from './service/facebook-rest.service';
@@ -19,6 +20,7 @@ export class MainComponent implements OnInit {
   public placeTypesData: string[] = PLACE_TYPES_DATA;
 
   public twitterData: TweetGeoCollection | null = null;
+  public censusData: FeatureCollection | null = null;
 
   constructor(
     private twitter: TwitterRestService,
@@ -48,7 +50,12 @@ export class MainComponent implements OnInit {
   }
 
   public onCensusLayerDisableChange(isEnabled: boolean): void {
-    console.log('onCensusLayerDisableChange', isEnabled);
+    // todo
+    if (isEnabled) {
+      this.census.getGeoCollection().subscribe(data => this.censusData = data);
+    } else {
+      this.censusData = null;
+    }
   }
 
   public onFbFilterChange(data: FacebookFilterOutput): void {

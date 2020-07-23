@@ -1,23 +1,25 @@
 import { FeatureCollection, Feature } from 'geojson';
-import { Census } from '../model/input/census';
+
+import { CensusGeometry } from '../model/input/census-geometry';
 
 export class CensusMapper {
-  public static mapToGeoCollection(data: Census[]): FeatureCollection {
+  public static mapToGeoCollection(data: CensusGeometry[]): FeatureCollection {
     return {
       type: 'FeatureCollection',
       features: CensusMapper.mapToGeoObjects(data)
     };
   }
 
-  public static mapToGeoObjects(data: Census[]): Feature[] {
+  public static mapToGeoObjects(data: CensusGeometry[]): Feature[] {
     return data.map(CensusMapper.mapToGeoObject);
   }
 
-  public static mapToGeoObject(data: Census): Feature {
+  public static mapToGeoObject(data: CensusGeometry): Feature {
     return {
+      id: data.GEOID,
       type: 'Feature',
       geometry: data.geometry,
-      properties: data.properties
+      properties: {}
     };
   }
 }

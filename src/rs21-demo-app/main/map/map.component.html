@@ -63,5 +63,19 @@
     </mgl-popup>
   </div>
 
-
+  <div class="census-layer">
+    <mgl-geojson-source
+      id="censusDataSet"
+      [data]="censusData"
+    ></mgl-geojson-source>
+    <mgl-layer *ngIf="!!censusData"
+      id="censusGeometry"
+      type="fill"
+      source="censusDataSet"
+      [paint]="{'fill-opacity': 0.5, 'fill-color': '#fc0349'}"
+      (click)="onLayerClick($event)"
+      (mouseEnter)="onPointEnter()"
+      (mouseLeave)="onPointLeave()">
+    </mgl-layer>
+  </div>
 </mgl-map>
