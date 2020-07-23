@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { cloneDeep } from 'lodash';
+import { Visibility } from 'mapbox-gl';
+import { Feature, Polygon } from 'geojson';
 
 import { TwitterRestService } from './service/twitter-rest.service';
 import { FacebookRestService } from './service/facebook-rest.service';
@@ -10,9 +12,9 @@ import { TweetGeoCollection } from './model/tweet-geo-collection.type';
 import { CensusFilterOutput } from './model/census-tilter-output.interface';
 import { CensusGeoCollection } from './model/census-geo-collection.type';
 import { CensusGeoObject } from './model/census-geo-object.type';
-import { Visibility } from 'mapbox-gl';
+import { PlaceMetaData } from './model/place-meta-data.interface';
+import { TweetMetaData } from './model/tweet-meta-data.interface';
 import { CensusMetaData } from './model/census-meta-data.interface';
-import { Feature, Polygon } from 'geojson';
 import { Gender } from './model/gender.enum';
 
 const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
@@ -28,15 +30,18 @@ const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
 })
 export class MainComponent implements OnInit {
   public fbData: PlaceGeoCollection | null = null;
+  public fbMetaData: PlaceMetaData[] = [];
   public fbFilter: FacebookFilterOutput;
   public fbLayerVisibility: Visibility = 'none';
 
   public placeTypesData: string[] = [];
 
   public twitterData: TweetGeoCollection | null = null;
+  public twitterMetaData: TweetMetaData[] = [];
   public twitterLayerVisibility: Visibility = 'none';
 
   public censusData: CensusGeoCollection | null = null;
+  public censusMetaData: CensusMetaData[] = [];
   public censusFilter: CensusFilterOutput;
   public censusLayerVisibility: Visibility = 'none';
 
@@ -73,9 +78,11 @@ export class MainComponent implements OnInit {
     if (!this.twitterData) {
       this.twitter.getGeoCollection().subscribe((data: TweetGeoCollection) => {
         this.twitterData = data;
+        this.twitterMetaData = this.twitterData.features.map(item => item.properties);
         this.cd.markForCheck();
       });
     }
+    this.twitterMetaData = (isEnabled && this.twitterData) ? this.twitterData.features.map(item => item.properties) : [];
   }
 
   public onCensusLayerDisableChange(isEnabled: boolean): void {
@@ -86,6 +93,7 @@ export class MainComponent implements OnInit {
         this.fetchCensusData();
       });
     }
+    this.censusMetaData = (isEnabled && this.censusData) ? this.censusData.features.map(item => item.properties) : [];
   }
 
   public onCensusFilterChange(filterData: CensusFilterOutput): void {
@@ -97,10 +105,12 @@ export class MainComponent implements OnInit {
     if (type.length) {
       this.facebook.getGeoCollection({type}).subscribe((data: PlaceGeoCollection) => {
         this.fbData = data;
+        this.fbMetaData = data.features.map(item => item.properties);
         this.cd.markForCheck();
       });
     } else {
       this.fbData = cloneDeep(DUMMY_GEO_JSON);
+      this.fbMetaData = [];
     }
   }
 
@@ -119,6 +129,7 @@ export class MainComponent implements OnInit {
             geo.features.push(feature);
           }
         });
+        this.censusMetaData = metaDataSet;
         this.censusData = geo;
         this.cd.markForCheck();
       });
@@ -132,5 +143,13 @@ export class MainComponent implements OnInit {
 
   private getVisibility(isEnabled: boolean): Visibility {
     return isEnabled ? 'visible' : 'none';
+  }
+
+  private isAnyLayerVisible(): boolean {
+    return (this.fbLayerVisibility === 'visible' || this.twitterLayerVisibility === 'visible' || this.censusLayerVisibility === 'visible');
+  }
+
+  public isDashboardVisible(): boolean {
+    return this.isAnyLayerVisible() && !!(this.fbMetaData.length || this.twitterMetaData.length || this.censusMetaData.length);
   }
 }

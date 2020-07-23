@@ -1,9 +1,9 @@
-import { Point } from 'mapbox-gl';
-
-import { TweetModel } from '../model/tweet.model';
 import { Tweet } from '../model/input/tweet';
 import { TweetGeoCollection } from '../model/tweet-geo-collection.type';
 import { TweetGeoObject } from '../model/tweet-geo-object.type';
+import { TweetMetaData } from '../model/tweet-meta-data.interface';
+import { TweetChartData } from '../model/tweet-chart-data.interface';
+import { TweetSentiment } from '../model/tweet-sentiment.enum';
 
 export class TweetMapper {
   public static mapToGeoCollection(data: Tweet[]): TweetGeoCollection {
@@ -26,18 +26,15 @@ export class TweetMapper {
     };
   }
 
-  public static mapToModels(data: Tweet[]): TweetModel[] {
-    return data.map(TweetMapper.mapToModel);
-  }
-
-  public static mapToModel(data: Tweet): TweetModel {
-    return ({
-      username: data.username,
-      message: data.tweet,
-      datetime: TweetMapper.parseDate(data.datetime),
-      location: new Point(data.location.coordinates[0], data.location.coordinates[1]),
-      sentiment: data.sentiment
+  public static mapToChartData(twitterData: TweetMetaData[]): TweetChartData {
+    const sentimentMap: Partial<{}> = {};
+    twitterData.forEach(data => {
+      const sentiment: number = data.sentiment;
+      const prevSentiment: number = sentimentMap[sentiment] || 0;
+      sentimentMap[sentiment] = prevSentiment + 1;
     });
+    const labels = Object.keys(sentimentMap).map(key => TweetSentiment[key]);
+    return {labels, nums: Object.values(sentimentMap)};
   }
 
   // todo: consider to move this method to separate util class

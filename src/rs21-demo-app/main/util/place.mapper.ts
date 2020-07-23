@@ -1,9 +1,8 @@
-import { Point } from 'mapbox-gl';
-
 import { Place } from '../model/input/place';
-import { PlaceModel } from '../model/place.model';
 import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { PlaceGeoObject } from '../model/place-geo-object.type';
+import { PlaceMetaData } from '../model/place-meta-data.interface';
+import { PlaceChartData } from '../model/place-chart-data.interface';
 
 export class PlaceMapper {
   public static mapToGeoCollection(data: Place[]): PlaceGeoCollection {
@@ -25,16 +24,13 @@ export class PlaceMapper {
     };
   }
 
-  public static mapToModels(data: Place[]): PlaceModel[] {
-    return data.map(PlaceMapper.mapToModel);
-  }
-
-  public static mapToModel(data: Place): PlaceModel {
-    return ({
-      name: data.place,
-      type: data.type,
-      checkins: data.checkins,
-      location: new Point(data.location.coordinates[0], data.location.coordinates[1])
+  public static mapToChartData(placeData: PlaceMetaData[]): PlaceChartData {
+    const places: Partial<{}> = {};
+    placeData.forEach(data => {
+      const type: string = data.type;
+      const prevNum = places[type] || 0;
+      places[type] = prevNum + 1;
     });
+    return  {types: Object.keys(places), nums: Object.values(places)};
   }
 }

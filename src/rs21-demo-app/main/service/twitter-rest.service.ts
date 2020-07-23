@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { RestService, SearchParams } from './rest.service';
-import { TweetModel } from '../model/tweet.model';
 import { TweetMapper } from '../util/tweet.mapper';
 import { Tweet } from '../model/input/tweet';
 import { TweetGeoCollection } from '../model/tweet-geo-collection.type';
@@ -26,10 +25,6 @@ export class TwitterRestService extends RestService {
 
   constructor(http: HttpClient) {
     super(TwitterRestService.END_POINT, http);
-  }
-
-  public getTweets(searchParams: TwitSearchParams = {}): Observable<TweetModel[]> {
-    return this.get<Tweet, TwitSearchParams>(searchParams, TweetMapper.mapToModels);
   }
 
   public getGeoCollection(searchParams: TwitSearchParams = {}): Observable<TweetGeoCollection> {

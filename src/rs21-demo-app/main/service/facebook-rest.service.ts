@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { RestService, SearchParams } from './rest.service';
 import { Place } from '../model/input/place';
-import { PlaceModel } from '../model/place.model';
 import { PlaceMapper } from '../util/place.mapper';
 import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { PlaceTypes } from '../model/input/place-types';
@@ -33,10 +32,6 @@ export class FacebookRestService extends RestService {
       .pipe(
         map(data => data.all_types)
       );
-  }
-
-  public getPlaces(searchParams: FacebookSearchParams = {}): Observable<PlaceModel[]> {
-    return this.get<Place, FacebookSearchParams>(searchParams, PlaceMapper.mapToModels);
   }
 
   public getGeoCollection(searchParams: FacebookSearchParams = {}): Observable<PlaceGeoCollection> {
