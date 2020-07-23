@@ -17,10 +17,7 @@ export abstract class RestService {
   }
 
   protected get<T, P = SearchParams>(searchParams: P, mapperFn: (data: T[]) => any): Observable<any> {
-    let params = new HttpParams();
-    Object.keys(searchParams)
-      .filter(Boolean)
-      .forEach(key => params = params.set(key, searchParams[key]));
+    const params = this.buildSearchParams(searchParams);
     return this.http.get<T[]>(this.url, {params})
       .pipe(
         map(mapperFn),
@@ -30,5 +27,13 @@ export abstract class RestService {
 
   protected buildUrl(endPoint: string): string {
     return `/${this.api}/${endPoint}`;
+  }
+
+  protected buildSearchParams<P = SearchParams>(searchParams: P): HttpParams {
+    let params = new HttpParams();
+    Object.keys(searchParams)
+      .filter(Boolean)
+      .forEach(key => params = params.set(key, searchParams[key]));
+    return params;
   }
 }

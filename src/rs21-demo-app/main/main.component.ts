@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FeatureCollection } from 'geojson';
 
 import { TwitterRestService } from './service/twitter-rest.service';
 import { FacebookRestService } from './service/facebook-rest.service';
@@ -8,6 +7,8 @@ import { FacebookFilterOutput } from './model/facebook-filter-output.interface';
 import { PlaceGeoCollection } from './model/place-geo-collection.type';
 import { TweetGeoCollection } from './model/tweet-geo-collection.type';
 import { CensusFilterOutput } from './model/census-tilter-output.interface';
+import { CensusGeoCollection } from './model/census-geo-collection.type';
+import { CensusGeoObject } from './model/census-geo-object.type';
 import { Visibility } from 'mapbox-gl';
 
 const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
@@ -29,9 +30,11 @@ export class MainComponent implements OnInit {
   public placeTypesData: string[] = [];
 
   public twitterData: TweetGeoCollection | null = null;
-  public censusData: FeatureCollection | null = null;
+  public censusData: CensusGeoCollection | null = null;
   public isTwitterLayerVisible: Visibility = 'none';
 
+  // GEOID => GeoObject
+  private censusMap: Map<string | number, CensusGeoObject> | undefined;
 
   constructor(
     private twitter: TwitterRestService,
@@ -65,9 +68,14 @@ export class MainComponent implements OnInit {
   public onCensusLayerDisableChange(isEnabled: boolean): void {
     // todo
     if (isEnabled) {
-      this.census.getGeoCollection().subscribe(data => this.censusData = data);
+      this.census.getGeoCollection().subscribe(data => {
+        this.censusData = data;
+        this.censusMap = new Map<string, CensusGeoObject>();
+        data.features.forEach(item => this.censusMap.set(item.id, item));
+      });
     } else {
       this.censusData = null;
+      this.censusMap = undefined;
     }
   }
 
@@ -77,8 +85,16 @@ export class MainComponent implements OnInit {
   }
 
   public onCensusFilterChange(data: CensusFilterOutput): void {
-    console.log('MainComponent receives CensusFilterOutput', data);
-    // TODO: fetch Census data here
+    // todo: delay
+    this.census.getCensusData({agemin: data.ageMin, agemax: data.ageMax, gender: data.gender})
+      .subscribe(metaData => {
+        metaData.forEach(props => {
+          const feature: CensusGeoObject | undefined = this.censusMap && this.censusMap.get(props.geoid);
+          if (feature) {
+            feature.properties = props;
+          }
+        });
+      });
   }
 
   private fetchFbData(type: string): void {
