@@ -9,7 +9,7 @@ import { CensusFilterOutput } from '../model/census-tilter-output.interface';
   styleUrls: ['./control-panel.component.scss']
 })
 export class ControlPanelComponent implements OnInit {
-  public isFbLayerEnabled = true;
+  public isFbLayerEnabled = false;
   public isTwitterLayerEnabled = false;
   public isCensusLayerEnabled = false;
 
