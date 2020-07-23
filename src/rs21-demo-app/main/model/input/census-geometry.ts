@@ -1,6 +1,6 @@
-import { Geometry } from 'geojson';
+import { Polygon } from 'geojson';
 
 export interface CensusGeometry {
-  geometry: Geometry;
+  geometry: Polygon;
   GEOID: string;
 }

@@ -4,6 +4,7 @@ import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { get } from 'lodash';
 import { FeatureCollection } from 'geojson';
 import { TweetGeoCollection } from '../model/tweet-geo-collection.type';
+import { CensusGeoCollection } from '../model/census-geo-collection.type';
 
 @Component({
   selector: 'rs21-map',
@@ -18,7 +19,7 @@ export class MapComponent implements OnInit, OnChanges{
 
   @Input() public fbData: PlaceGeoCollection | null;
   @Input() public twitterData: TweetGeoCollection | null;
-  @Input() public censusData: FeatureCollection | null;
+  @Input() public censusData: CensusGeoCollection | null;
 
   @Input() public isFbLayerVisible: Visibility = 'none';
   @Input() public isTwitterLayerVisible: Visibility = 'none';
