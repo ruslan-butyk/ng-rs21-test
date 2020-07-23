@@ -23,10 +23,11 @@
 
   <mat-drawer-content>
     <rs21-map [fbData]="fbData"
-              [isFbLayerVisible]="isFbLayerVisible"
+              [fbLayerVisibility]="fbLayerVisibility"
               [twitterData]="twitterData"
-              [isTwitterLayerVisible]="isTwitterLayerVisible"
+              [twitterLayerVisibility]="twitterLayerVisibility"
               [censusData]="censusData"
+              [censusLayerVisibility]="censusLayerVisibility"
     ></rs21-map>
     <button class="toggle-charts"
             mat-raised-button

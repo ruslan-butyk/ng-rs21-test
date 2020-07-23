@@ -1,4 +1,4 @@
 export interface CensusMetaData {
-  citizen: number;
+  citizens: number;
   geoid: string;
 }
