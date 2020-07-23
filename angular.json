@@ -140,5 +140,8 @@
       }
     }
   },
-  "defaultProject": "rs21-test"
+  "defaultProject": "rs21-test",
+  "cli": {
+    "analytics": false
+  }
 }

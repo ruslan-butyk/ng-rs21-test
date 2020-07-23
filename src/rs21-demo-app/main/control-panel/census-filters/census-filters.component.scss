@@ -5,13 +5,26 @@
 .slider-holder {
   display: flex;
   align-items: center;
+}
 
-  mat-slider {
-    flex: 1;
+::ng-deep {
+  .slider-holder .ng5-slider .ng5-slider-bar {
+    background: #ffe4d1;
+    height: 2px;
+  }
+  .slider-holder .ng5-slider .ng5-slider-selection {
+    background: orange;
   }
 
-  output {
-    width: 2rem;
-    text-align: right;
+  .slider-holder .ng5-slider .ng5-slider-pointer {
+    background-color: #3f51b5;
+  }
+
+  .slider-holder .ng5-slider .ng5-slider-limit {
+    color: orange;
+  }
+
+  .slider-holder .ng5-slider .ng5-slider-tick.ng5-slider-selected {
+    background: orange;
   }
 }

@@ -11,9 +11,14 @@ import { CensusFilterOutput } from '../../model/census-tilter-output.interface';
 /* TODO: rename CensusFiltersComponent to CensusFilterComponent and all related things (file names, etc)*/
 export class CensusFiltersComponent implements OnInit {
   public sliderConfig = {
-    minAge: 10,
-    maxAge: 120,
-    step: 5
+    minAge: 15,
+    maxAge: 33,
+    options: {
+      floor: 5,
+      ceil: 90,
+      step: 1,
+      animate: false
+    }
   };
   public genderList = Object.values(Gender);
   public selectedGender: Gender = Gender.All;
@@ -29,6 +34,12 @@ export class CensusFiltersComponent implements OnInit {
       ageMax: this.ageMax
     });
   }
+  public onAgeFilterChange(e): void {
+    this.ageMin = e.value;
+    this.ageMax = e.highValue;
+    this.onFilterChange();
+  }
+
   constructor() { }
 
   ngOnInit(): void {

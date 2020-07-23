@@ -12,6 +12,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
+import { Ng5SliderModule } from 'ng5-slider';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
@@ -55,6 +56,7 @@ import { CensusRestService } from './service/census-rest.service';
     MatAutocompleteModule,
     MatInputModule,
     MatSliderModule,
+    Ng5SliderModule,
     MatSelectModule,
     ReactiveFormsModule,
     NgxMapboxGLModule.withConfig({

@@ -6,28 +6,13 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
-<div class="min-age">
-  <label for="minAge">Min age</label>
+<div class="age-control">
+  <label for="ageControl">Select age</label>
   <div class="slider-holder">
-    <mat-slider id="minAge"
-                [min]="sliderConfig.minAge"
-                [max]="ageMax"
-                [step]="sliderConfig.step"
-                [(ngModel)]="ageMin"
-                (change)="onFilterChange()"></mat-slider>
-    <output>{{ageMin}}</output>
+    <ng5-slider id="ageControl"
+                [(value)]="sliderConfig.minAge"
+                [(highValue)]="sliderConfig.maxAge"
+                [options]="sliderConfig.options"
+                (userChangeEnd)="onAgeFilterChange($event)"></ng5-slider>
   </div>
 </div>
-<div class="max-age">
-  <label for="maxAge">Max age</label>
-  <div class="slider-holder">
-    <mat-slider id="maxAge"
-                [min]="ageMin"
-                [max]="sliderConfig.maxAge"
-                [step]="sliderConfig.step"
-                [(ngModel)]="ageMax"
-                (change)="onFilterChange()"></mat-slider>
-    <output>{{ageMax}}</output>
-  </div>
-</div>
-
