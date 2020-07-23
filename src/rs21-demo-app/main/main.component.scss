@@ -14,8 +14,6 @@
 }
 
 .toggle-charts {
-  $icon-size: 1rem;
-
   position: absolute;
   bottom: 1.5rem;
   right: 0;
@@ -24,11 +22,6 @@
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) 10s both;
-
-  .mat-icon {
-    height: $icon-size;
-    font-size: $icon-size;
-  }
 }
 
 @keyframes shake {

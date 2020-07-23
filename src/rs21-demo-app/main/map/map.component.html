@@ -2,7 +2,8 @@
          [style]="defaultConfig.style"
          [zoom]="defaultConfig.zoom"
          [center]="[defaultConfig.lng, defaultConfig.lat]"
-         [cursorStyle]="cursorStyle">
+         [cursorStyle]="cursorStyle"
+         [trackResize]="defaultConfig.trackResize">
   <div class="facebook-layer">
     <mgl-image
       id="fbPoint"
@@ -19,7 +20,7 @@
       *ngIf="isFbPlacesImageLoaded"
       type="symbol"
       source="facebookDataSet"
-      [layout]="{ 'icon-image': 'fbPoint', visibility: isFbLayerVisible}"
+      [layout]="{ 'icon-image': 'fbPoint', visibility: fbLayerVisibility}"
       (click)="onLayerClick($event)"
       (mouseEnter)="onPointEnter()"
       (mouseLeave)="onPointLeave()"
@@ -31,7 +32,6 @@
       <p><b>Chekins: </b>{{selectedPoint.properties?.checkins}}</p>
     </mgl-popup>
   </div>
-
 
   <div class="twitter-layer">
     <mgl-image
@@ -50,7 +50,7 @@
       *ngIf="isTwitterImageLoaded"
       type="symbol"
       source="twitterDataSet"
-      [layout]="{ 'icon-image': 'twittPoint', visibility: isTwitterLayerVisible, 'icon-size': 0.5}"
+      [layout]="{ 'icon-image': 'twittPoint', visibility: twitterLayerVisibility, 'icon-size': 0.5}"
       (click)="onLayerClick($event)"
       (mouseEnter)="onPointEnter()"
       (mouseLeave)="onPointLeave()"
@@ -68,14 +68,72 @@
       id="censusDataSet"
       [data]="censusData"
     ></mgl-geojson-source>
-    <mgl-layer *ngIf="!!censusData"
-      id="censusGeometry"
+    <mgl-layer
+      id="census"
       type="fill"
       source="censusDataSet"
-      [paint]="{'fill-opacity': 0.5, 'fill-color': '#fc0349'}"
+      [layout]="{ visibility: censusLayerVisibility }"
+      [paint]="{'fill-color': [
+                  'interpolate',
+                  ['linear'],
+                  ['get', 'citizens'],
+                  0,
+                  '#dbb2ff',
+                  50,
+                  '#bb86fc',
+                  100,
+                  '#985eff',
+                  200,
+                  '#7f39fb',
+                  400,
+                  '#6200ee',
+                  800,
+                  '#5600e8',
+                  1600,
+                  '#3700b3',
+                  3200,
+                  '#30009c',
+                  6400,
+                  '#23036a'
+                  ],
+                  'fill-opacity': 0.75}"
       (click)="onLayerClick($event)"
       (mouseEnter)="onPointEnter()"
       (mouseLeave)="onPointLeave()">
     </mgl-layer>
+    <mgl-popup *ngIf="isPopupOpen('census')" [lngLat]="currentPopupLngLat" >
+      <p><strong>Region ID: </strong>{{selectedPoint.properties?.geoid}}</p>
+      <p><b>Citizens per region: </b>{{selectedPoint.properties?.citizens}}</p>
+    </mgl-popup>
   </div>
 </mgl-map>
+<mat-card class="census-legend"
+          *ngIf="censusLayerVisibility === 'visible'"
+          [class.hidden]="isLegendHidden" >
+  <mat-card-title>Population</mat-card-title>
+  <mat-card-content>
+    <p class="legend-line"><span style="background-color: #23036a"></span>6,400</p>
+    <p class="legend-line"><span style="background-color: #30009c"></span>3,200</p>
+    <p class="legend-line"><span style="background-color: #3700b3"></span>1,600</p>
+    <p class="legend-line"><span style="background-color: #5600e8"></span>800</p>
+    <p class="legend-line"><span style="background-color: #6200ee"></span>400</p>
+    <p class="legend-line"><span style="background-color: #7f39fb"></span>200</p>
+    <p class="legend-line"><span style="background-color: #985eff"></span>100</p>
+    <p class="legend-line"><span style="background-color: #bb86fc"></span>50</p>
+    <p class="legend-line"><span style="background-color: #dbb2ff"></span>0</p>
+  </mat-card-content>
+  <button class="toggle-charts"
+          mat-raised-button
+          aria-label="Show/hide legend"
+          (click)="toggleLegend()" >
+    <mat-icon>swap_horiz</mat-icon>
+  </button>
+</mat-card>
+
+
+
+
+
+
+
+

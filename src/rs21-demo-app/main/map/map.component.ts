@@ -1,8 +1,7 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MapboxGeoJSONFeature, MapLayerMouseEvent, Visibility } from 'mapbox-gl';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { LngLat, MapboxGeoJSONFeature, MapLayerMouseEvent, Visibility } from 'mapbox-gl';
 import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { get } from 'lodash';
-import { FeatureCollection } from 'geojson';
 import { TweetGeoCollection } from '../model/tweet-geo-collection.type';
 import { CensusGeoCollection } from '../model/census-geo-collection.type';
 
@@ -11,30 +10,36 @@ import { CensusGeoCollection } from '../model/census-geo-collection.type';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, OnChanges{
+export class MapComponent implements OnChanges {
   public isFbPlacesImageLoaded = false;
   public isTwitterImageLoaded = false;
   public cursorStyle = '';
+  public isLegendHidden = false;
+
   public selectedPoint: MapboxGeoJSONFeature | null;
+  public currentPopupName: 'census' | 'twitter' | 'fbPlaces';
+  public currentPopupLngLat: LngLat;
 
   @Input() public fbData: PlaceGeoCollection | null;
   @Input() public twitterData: TweetGeoCollection | null;
   @Input() public censusData: CensusGeoCollection | null;
 
-  @Input() public isFbLayerVisible: Visibility = 'none';
-  @Input() public isTwitterLayerVisible: Visibility = 'none';
+  @Input() public fbLayerVisibility: Visibility = 'none';
+  @Input() public twitterLayerVisibility: Visibility = 'none';
+  @Input() public censusLayerVisibility: Visibility = 'none';
 
   public defaultConfig = {
     style: 'mapbox://styles/mapbox/streets-v9',
     lat: 35.10, // Albuquerque coords
     lng: -106.62,
-    zoom: [11]
+    zoom: [11],
+    trackResize: true
   };
 
-  public ngOnInit(): void {
-  }
-
-  public ngOnChanges(): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.censusLayerVisibility && this.censusLayerVisibility === 'visible') {
+      this.isLegendHidden = false;
+    }
   }
 
   public onFbPlaceImageLoad(): void {
@@ -47,6 +52,8 @@ export class MapComponent implements OnInit, OnChanges{
 
   public onLayerClick(event: MapLayerMouseEvent): void {
     this.selectedPoint = get(event, 'features[0]');
+    this.currentPopupName = get(this.selectedPoint, 'layer.id');
+    this.currentPopupLngLat = get(event, 'lngLat');
   }
 
   public onPointEnter(): void {
@@ -58,6 +65,10 @@ export class MapComponent implements OnInit, OnChanges{
   }
 
   public isPopupOpen(pointType: string): boolean {
-    return get(this.selectedPoint, 'layer.id') === pointType;
+    return this.currentPopupName === pointType;
+  }
+
+  public toggleLegend(): void {
+    this.isLegendHidden = !this.isLegendHidden;
   }
 }

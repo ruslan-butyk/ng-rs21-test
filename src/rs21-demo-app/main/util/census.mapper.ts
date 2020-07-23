@@ -32,7 +32,7 @@ export class CensusMapper {
     data.categories.forEach(item => categoryMap.set(item.category, item));
     // Mapping itself
     return data.filter.map((item: CensusFilter) => {
-      const metaData: CensusMetaData = { citizen: 0, geoid: undefined };
+      const metaData: CensusMetaData = { citizens: 0, geoid: undefined };
       metaData.geoid = item.GEOID;
       Object.keys(item)
         .forEach(key => {
@@ -44,7 +44,7 @@ export class CensusMapper {
           if (category.subtype.toLowerCase() !== 'estimate') {
             return;
           }
-          metaData.citizen += +item[key];
+          metaData.citizens += +item[key];
         });
       return metaData;
     });
