@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 
@@ -23,7 +23,8 @@ export abstract class RestService {
       .forEach(key => params = params.set(key, searchParams[key]));
     return this.http.get<T[]>(this.url, {params})
       .pipe(
-        map(mapperFn)
+        map(mapperFn),
+        first()
       );
   }
 

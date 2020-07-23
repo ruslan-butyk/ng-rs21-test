@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { map, startWith, withLatestFrom } from 'rxjs/operators';
 import { without } from 'lodash';
@@ -13,10 +13,11 @@ import { FacebookFilterOutput } from '../../model/facebook-filter-output.interfa
 @Component({
   selector: 'rs21-facebook-filters',
   templateUrl: './facebook-filters.component.html',
-  styleUrls: ['./facebook-filters.component.scss']
+  styleUrls: ['./facebook-filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 /* TODO: rename FacebookFiltersComponent to FacebookFilterComponent and all related things (file names, etc)*/
-export class FacebookFiltersComponent implements OnDestroy {
+export class FacebookFiltersComponent implements OnChanges, OnDestroy {
   // here places are meaning placeTypes
   public isChipRemovable = true;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -25,6 +26,7 @@ export class FacebookFiltersComponent implements OnDestroy {
   public selectedPlaces$: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private filterSub: Subscription;
   private selectedPlaceChange$: Subject<PlacesTypeChanges> = new Subject();
+  private placeTypes$: Subject<string[]> = new Subject();
 
   @Input() public placeTypes: string[] = [];
   @Output() public filterChanges: EventEmitter<FacebookFilterOutput> = new EventEmitter();
@@ -36,6 +38,12 @@ export class FacebookFiltersComponent implements OnDestroy {
     this.initFilteredPlaces();
     this.filterSub = this.initSelectedPlaceChanges$()
       .subscribe((filterChanges: FacebookFilterOutput) => this.filterChanges.emit(filterChanges));
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.placeTypes) {
+      this.placeTypes$.next(this.placeTypes);
+    }
   }
 
   public removeChip(place: string): void {
@@ -67,9 +75,11 @@ export class FacebookFiltersComponent implements OnDestroy {
   }
 
   private initFilteredPlaces(): void {
-    const notSelectedPlaces$: Observable<string[]> = this.selectedPlaces$.pipe(
-      map((selectedPlaces: string[]) => without(this.placeTypes, ...selectedPlaces))
-    );
+    const placeTypes$: Observable<string[]> = this.placeTypes$.pipe(startWith(this.placeTypes));
+    const notSelectedPlaces$: Observable<string[]> = combineLatest([placeTypes$, this.selectedPlaces$])
+      .pipe(
+        map(([placeTypes, selectedPlaces]: [string[], string[]]) => without(placeTypes, ...selectedPlaces))
+      );
     const searchedPlace$: Observable<string> = this.placesCtrl.valueChanges.pipe(
       startWith('')
     );

@@ -23,7 +23,9 @@
 
   <mat-drawer-content>
     <rs21-map [fbData]="fbData"
+              [isFbLayerVisible]="isFbLayerVisible"
               [twitterData]="twitterData"
+              [isTwitterLayerVisible]="isTwitterLayerVisible"
               [censusData]="censusData"
     ></rs21-map>
     <button class="toggle-charts"
