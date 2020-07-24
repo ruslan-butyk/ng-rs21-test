@@ -34,12 +34,6 @@
   </div>
 
   <div class="twitter-layer">
-    <mgl-image
-      id="twittPoint"
-      url="https://img.icons8.com/fluent/96/twitter.png"
-      (loaded)="onTwitterImageLoad()"
-    >
-    </mgl-image>
     <mgl-geojson-source
       id="twitterDataSet"
       [data]="twitterData"
@@ -47,10 +41,17 @@
 
     <mgl-layer
       id="twitter"
-      *ngIf="isTwitterImageLoaded"
-      type="symbol"
+      type="circle"
       source="twitterDataSet"
-      [layout]="{ 'icon-image': 'twittPoint', visibility: twitterLayerVisibility, 'icon-size': 0.5}"
+      [layout]="{visibility: twitterLayerVisibility}"
+      [paint]="{
+          'circle-radius': 8,
+          'circle-color': ['case',
+            ['==', ['get', 'sentiment'], tweetSentiment.Negative], tweetColorMap[tweetSentiment.Negative],
+            ['==', ['get', 'sentiment'], tweetSentiment.Positive], tweetColorMap[tweetSentiment.Positive],
+            tweetColorMap[tweetSentiment.Neutral]
+          ]
+        }"
       (click)="onLayerClick($event)"
       (mouseEnter)="onPointEnter()"
       (mouseLeave)="onPointLeave()"

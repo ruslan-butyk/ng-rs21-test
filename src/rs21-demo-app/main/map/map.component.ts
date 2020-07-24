@@ -4,6 +4,8 @@ import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { get } from 'lodash';
 import { TweetGeoCollection } from '../model/tweet-geo-collection.type';
 import { CensusGeoCollection } from '../model/census-geo-collection.type';
+import { TWEET_COLOR_MAP } from '../model/tweet-color.map';
+import { TweetSentiment } from '../model/tweet-sentiment.enum';
 
 @Component({
   selector: 'rs21-map',
@@ -11,8 +13,9 @@ import { CensusGeoCollection } from '../model/census-geo-collection.type';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnChanges {
+  public readonly tweetSentiment = TweetSentiment;
+  public readonly tweetColorMap = TWEET_COLOR_MAP;
   public isFbPlacesImageLoaded = false;
-  public isTwitterImageLoaded = false;
   public cursorStyle = '';
   public isLegendHidden = false;
 
@@ -44,10 +47,6 @@ export class MapComponent implements OnChanges {
 
   public onFbPlaceImageLoad(): void {
     this.isFbPlacesImageLoaded = true;
-  }
-
-  public onTwitterImageLoad(): void {
-    this.isTwitterImageLoaded = true;
   }
 
   public onLayerClick(event: MapLayerMouseEvent): void {
