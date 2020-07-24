@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { LngLat, MapboxGeoJSONFeature, MapLayerMouseEvent, Visibility } from 'mapbox-gl';
 import { PlaceGeoCollection } from '../model/place-geo-collection.type';
 import { get } from 'lodash';

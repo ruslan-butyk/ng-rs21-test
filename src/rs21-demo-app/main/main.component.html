@@ -11,7 +11,7 @@
 <mat-drawer-container class="main-content">
   <mat-drawer #controlPanelSide
               mode="side"
-              opened>
+              [opened]="isControlPanelOpen">
     <rs21-control-panel [placeTypes]="placeTypesData"
                         (fbLayerDisableChange)="onFbLayerDisableChange($event)"
                         (fbFilterChange)="onFbFilterChange($event)"
