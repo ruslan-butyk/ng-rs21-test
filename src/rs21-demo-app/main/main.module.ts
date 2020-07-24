@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { MatSelectModule } from '@angular/material/select';
+import { PlatformModule } from '@angular/cdk/platform';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -45,6 +46,7 @@ import { CensusRestService } from './service/census-rest.service';
   imports: [
     CommonModule,
     FormsModule,
+    PlatformModule,
     MatCardModule,
     MatToolbarModule,
     MatIconModule,

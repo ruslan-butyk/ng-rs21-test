@@ -1,6 +1,7 @@
 :host {
   display: block;
   width: 20rem;
+  max-width: calc(100vw - 3rem);
 }
 .spacer {
   flex: 1;

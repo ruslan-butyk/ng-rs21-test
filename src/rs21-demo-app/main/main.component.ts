@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Platform } from '@angular/cdk/platform';
 import { cloneDeep } from 'lodash';
 import { Visibility } from 'mapbox-gl';
 import { Feature, Polygon } from 'geojson';
@@ -16,6 +17,7 @@ import { PlaceMetaData } from './model/place-meta-data.interface';
 import { TweetMetaData } from './model/tweet-meta-data.interface';
 import { CensusMetaData } from './model/census-meta-data.interface';
 import { Gender } from './model/gender.enum';
+import { MatDrawer } from '@angular/material/sidenav';
 
 const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
   type: 'FeatureCollection',
@@ -47,15 +49,18 @@ export class MainComponent implements OnInit, AfterViewInit{
   public censusFilter: CensusFilterOutput;
   public censusLayerVisibility: Visibility = 'none';
 
+  @ViewChild('controlPanelSide', {static: true}) public controlPanelSide: MatDrawer;
+  @ViewChild('dashboardSide', {static: true}) public dashboardSide: MatDrawer;
 
   // GEOID => GeoObject
   private censusDataMap: Map<string | number, CensusGeoObject> = new Map();
 
   constructor(
-    private twitter: TwitterRestService,
-    private facebook: FacebookRestService,
-    private census: CensusRestService,
-    private cd: ChangeDetectorRef
+    private readonly twitter: TwitterRestService,
+    private readonly facebook: FacebookRestService,
+    private readonly census: CensusRestService,
+    private readonly cd: ChangeDetectorRef,
+    private readonly platform: Platform
   ) { }
 
   public ngOnInit(): void {
@@ -63,7 +68,9 @@ export class MainComponent implements OnInit, AfterViewInit{
   }
 
   public ngAfterViewInit(): void {
+    if (!this.isMobileDevice()) {
       this.isControlPanelOpen = true;
+    }
   }
 
   public onFbLayerDisableChange(isEnabled: boolean): void {
@@ -149,5 +156,21 @@ export class MainComponent implements OnInit, AfterViewInit{
 
   private getVisibility(isEnabled: boolean): Visibility {
     return isEnabled ? 'visible' : 'none';
+  }
+
+  private isMobileDevice(): boolean {
+    return this.platform.ANDROID || this.platform.IOS;
+  }
+
+  public onControlPanelOpenedStart(): void {
+    if (this.isMobileDevice()) {
+      this.dashboardSide.close();
+    }
+  }
+
+  public onDashBoardOpenedStart(): void {
+    if (this.isMobileDevice()) {
+      this.controlPanelSide.close();
+    }
   }
 }

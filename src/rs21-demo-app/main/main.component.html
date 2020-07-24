@@ -11,7 +11,8 @@
 <mat-drawer-container class="main-content">
   <mat-drawer #controlPanelSide
               mode="side"
-              [opened]="isControlPanelOpen">
+              [opened]="isControlPanelOpen"
+              (openedStart)="onControlPanelOpenedStart()">
     <rs21-control-panel [placeTypes]="placeTypesData"
                         (fbLayerDisableChange)="onFbLayerDisableChange($event)"
                         (fbFilterChange)="onFbFilterChange($event)"
@@ -40,7 +41,8 @@
   <mat-drawer #dashboardSide
               class="dashboard"
               mode="side"
-              position="end">
+              position="end"
+              (openedStart)="onDashBoardOpenedStart()">
     <rs21-dashboard [fbData]="fbMetaData"
                     [twitterData]="twitterMetaData"
                     [censusData]="censusMetaData">
