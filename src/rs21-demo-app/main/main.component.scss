@@ -11,6 +11,7 @@
 .mat-drawer-content {
   display: flex;
   justify-content: stretch;
+  overflow: hidden;
 }
 
 .toggle-charts {

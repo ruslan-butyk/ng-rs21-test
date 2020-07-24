@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { Visibility } from 'mapbox-gl';
 import { Feature, Polygon } from 'geojson';
@@ -28,7 +28,9 @@ const DUMMY_GEO_JSON: GeoJSON.FeatureCollection<any, any> = Object.freeze({
   styleUrls: ['./main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit{
+  public isControlPanelOpen = false;
+
   public fbData: PlaceGeoCollection | null = null;
   public fbMetaData: PlaceMetaData[] = [];
   public fbFilter: FacebookFilterOutput;
@@ -56,8 +58,12 @@ export class MainComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initPlaceTypesData();
+  }
+
+  public ngAfterViewInit(): void {
+      this.isControlPanelOpen = true;
   }
 
   public onFbLayerDisableChange(isEnabled: boolean): void {
