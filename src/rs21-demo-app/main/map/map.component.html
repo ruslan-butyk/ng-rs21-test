@@ -4,6 +4,51 @@
          [center]="[defaultConfig.lng, defaultConfig.lat]"
          [cursorStyle]="cursorStyle"
          [trackResize]="defaultConfig.trackResize">
+  <div class="census-layer">
+    <mgl-geojson-source
+      id="censusDataSet"
+      [data]="censusData"
+    ></mgl-geojson-source>
+    <mgl-layer
+      id="census"
+      type="fill"
+      source="censusDataSet"
+      [layout]="{ visibility: censusLayerVisibility }"
+      [paint]="{'fill-color': [
+                  'interpolate',
+                  ['linear'],
+                  ['get', 'citizens'],
+                  0,
+                  '#dbb2ff',
+                  50,
+                  '#bb86fc',
+                  100,
+                  '#985eff',
+                  200,
+                  '#7f39fb',
+                  400,
+                  '#6200ee',
+                  800,
+                  '#5600e8',
+                  1600,
+                  '#3700b3',
+                  3200,
+                  '#30009c',
+                  6400,
+                  '#23036a'
+                  ],
+                  'fill-opacity': 0.75}"
+      (click)="onLayerClick($event)"
+      (mouseEnter)="onPointEnter()"
+      (mouseLeave)="onPointLeave()">
+    </mgl-layer>
+    <mgl-popup *ngIf="isPopupOpen('census')" [lngLat]="currentPopupLngLat" >
+      <p><strong>Region ID: </strong>{{selectedPoint.properties?.geoid}}</p>
+      <p><b>Citizens per region: </b>{{selectedPoint.properties?.citizens}}</p>
+    </mgl-popup>
+  </div>
+
+
   <div class="facebook-layer">
     <mgl-image
       id="fbPoint"
@@ -64,49 +109,7 @@
     </mgl-popup>
   </div>
 
-  <div class="census-layer">
-    <mgl-geojson-source
-      id="censusDataSet"
-      [data]="censusData"
-    ></mgl-geojson-source>
-    <mgl-layer
-      id="census"
-      type="fill"
-      source="censusDataSet"
-      [layout]="{ visibility: censusLayerVisibility }"
-      [paint]="{'fill-color': [
-                  'interpolate',
-                  ['linear'],
-                  ['get', 'citizens'],
-                  0,
-                  '#dbb2ff',
-                  50,
-                  '#bb86fc',
-                  100,
-                  '#985eff',
-                  200,
-                  '#7f39fb',
-                  400,
-                  '#6200ee',
-                  800,
-                  '#5600e8',
-                  1600,
-                  '#3700b3',
-                  3200,
-                  '#30009c',
-                  6400,
-                  '#23036a'
-                  ],
-                  'fill-opacity': 0.75}"
-      (click)="onLayerClick($event)"
-      (mouseEnter)="onPointEnter()"
-      (mouseLeave)="onPointLeave()">
-    </mgl-layer>
-    <mgl-popup *ngIf="isPopupOpen('census')" [lngLat]="currentPopupLngLat" >
-      <p><strong>Region ID: </strong>{{selectedPoint.properties?.geoid}}</p>
-      <p><b>Citizens per region: </b>{{selectedPoint.properties?.citizens}}</p>
-    </mgl-popup>
-  </div>
+
 </mgl-map>
 <mat-card class="census-legend"
           *ngIf="censusLayerVisibility === 'visible'"
