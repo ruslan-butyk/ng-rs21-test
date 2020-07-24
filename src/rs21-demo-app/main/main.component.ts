@@ -150,12 +150,4 @@ export class MainComponent implements OnInit, AfterViewInit{
   private getVisibility(isEnabled: boolean): Visibility {
     return isEnabled ? 'visible' : 'none';
   }
-
-  private isAnyLayerVisible(): boolean {
-    return (this.fbLayerVisibility === 'visible' || this.twitterLayerVisibility === 'visible' || this.censusLayerVisibility === 'visible');
-  }
-
-  public isDashboardVisible(): boolean {
-    return this.isAnyLayerVisible() && !!(this.fbMetaData.length || this.twitterMetaData.length || this.censusMetaData.length);
-  }
 }
